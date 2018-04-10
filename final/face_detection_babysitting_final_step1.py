@@ -65,6 +65,7 @@ def cnn_model_fn(features, labels, mode):
     # Output Tensor Shape: [batch_size, 1024]
     dense = tf.layers.dense(inputs=pool2_flat, units=1024, activation=tf.nn.relu)
 
+    ## One step is to run without regularization
     # Add dropout operation; 0.6 probability that element will be kept
     dropout = tf.layers.dropout(
         inputs=dense, rate=0.4, training=mode == tf.estimator.ModeKeys.TRAIN)
@@ -72,7 +73,8 @@ def cnn_model_fn(features, labels, mode):
     # Logits layer
     # Input Tensor Shape: [batch_size, 1024]
     # Output Tensor Shape: [batch_size, 2]
-    logits = tf.layers.dense(inputs=dropout, units=2)
+    # logits = tf.layers.dense(inputs=dropout, units=2)
+    logits = tf.layers.dense(inputs=dense, units=2)
 
     predictions = {
         # Generate predictions (for PREDICT and EVAL mode)
@@ -86,14 +88,14 @@ def cnn_model_fn(features, labels, mode):
         return tf.estimator.EstimatorSpec(mode=mode, predictions=predictions)
 
     # Calculate Loss (for both TRAIN and EVAL modes)
-    loss = tf.losses.sparse_softmax_cross_entropy(labels=labels, logits=logits)
+    loss = tf.losses.sparse_softmax_cross_entropy(labels=labels, logits=logits) + 1e1
 
     # Calculate the accuracy between the true labels, and our predictions
     accuracy = tf.metrics.accuracy(labels=labels, predictions=predictions["classes"])
 
     # Configure the Training Op (for TRAIN mode)
     if mode == tf.estimator.ModeKeys.TRAIN:
-        optimizer = tf.train.AdadeltaOptimizer(learning_rate=0.001)
+        optimizer = tf.train.GradientDescentOptimizer(learning_rate=1e-5)
         train_op = optimizer.minimize(
             loss=loss,
             global_step=tf.train.get_global_step())
@@ -123,8 +125,6 @@ def extract_data_images_from_folder(faces_folder_location, non_faces_folder_loca
             count += 1
             break
         img = cv2.imread(os.path.join(faces_folder_location, filename), flags = cv2.IMREAD_COLOR)
-        # cv2.imshow("IMAGE", img)
-        # cv2.waitKey(0)
         if img is not None:
             img_reshaped = img.reshape((1, 10800))
             images_list.append(img_reshaped)
@@ -140,8 +140,6 @@ def extract_data_images_from_folder(faces_folder_location, non_faces_folder_loca
         if count >= number_of_data_points:
             break
         img = cv2.imread(os.path.join(non_faces_folder_location, filename), flags = cv2.IMREAD_COLOR)
-        # cv2.imshow("IMAGE", img)
-        # cv2.waitKey(0)
         if img is not None:
             img_reshaped = img.reshape((1, 10800))
             images_list.append(img_reshaped)
@@ -160,40 +158,23 @@ def extract_data_images_from_folder(faces_folder_location, non_faces_folder_loca
 
 def normalize_data_to_negative_one_to_positive_one(data_matrix):
     """ The input argument is a data matrix of np array """
-    min_val = np.amin(data_matrix)
-    max_val = np.amax(data_matrix)
-
-    normalized_data_matrix = data_matrix * 2
-    normalized_data_matrix = normalized_data_matrix - min_val
-    normalized_data_matrix = normalized_data_matrix / (max_val - min_val)
-    normalized_data_matrix = normalized_data_matrix - 1
+    normalized_data_matrix = data_matrix
+    mean_value = np.mean(normalized_data_matrix, axis=0)
+    normalized_data_matrix -= mean_value
+    normalized_data_matrix /= np.std(normalized_data_matrix, axis=0)
 
     return normalized_data_matrix
 
 def main(unused_argv):
     # Load training and test data
-    # mnist = tf.contrib.learn.datasets.load_dataset("mnist")
-    # train_data = mnist.train.images  # Returns np.array
-    # train_labels = np.asarray(mnist.train.labels, dtype=np.int32)
-    # eval_data = mnist.test.images  # Returns np.array
-    # eval_labels = np.asarray(mnist.test.labels, dtype=np.int32)
-
-    train_data, train_labels = extract_data_images_from_folder(FACES_TRAINING_SRC_LOCATION, NON_FACES_TRAINING_SRC_LOCATION, 0, 5000)
+    train_data, train_labels = extract_data_images_from_folder(FACES_TRAINING_SRC_LOCATION, NON_FACES_TRAINING_SRC_LOCATION, 0, 10000)
     normalized_train_data = normalize_data_to_negative_one_to_positive_one(train_data)
-    # print (normalized_train_data.shape)
-    # print (normalized_train_data)
-    # print (train_labels.shape)
-    # print (train_labels)
 
-    eval_data, eval_labels = extract_data_images_from_folder(FACES_TRAINING_SRC_LOCATION, NON_FACES_TRAINING_SRC_LOCATION, 7000, 500)
+    eval_data, eval_labels = extract_data_images_from_folder(FACES_TEST_SRC_LOCATION, NON_FACES_TEST_SRC_LOCATION, 0, 1000)
     normalize_eval_data = normalize_data_to_negative_one_to_positive_one(eval_data)
-    # print (normalize_eval_data.shape)
-    # print (normalize_eval_data)
-    # print (eval_labels.shape)
-    # print (eval_labels)
 
     # Create CNN Estimator
-    classifier = tf.estimator.Estimator(model_fn=cnn_model_fn, model_dir="./tmp/classifier_cnn_model_AdadeltaOptimizer_batch1000_epoch20_steps80000")
+    classifier = tf.estimator.Estimator(model_fn=cnn_model_fn, model_dir="../temp/final/classifier_cnn_model_SGD_1")
 
     # Set up logging for predictions
     # Log the values in the "Softmax" tensor with label "probabilities"
@@ -206,13 +187,15 @@ def main(unused_argv):
     train_input_fn = tf.estimator.inputs.numpy_input_fn(
         x={"x": normalized_train_data},
         y=train_labels,
-        batch_size=1000,
-        num_epochs=20,
+        batch_size=24,
+        num_epochs=1,
         shuffle=True)
     classifier.train(
         input_fn=train_input_fn,
-        steps=80000,
-        hooks=None) 
+        steps=2001,
+        hooks=None)
+
+    exit(0) 
 
     # Evaluate the model and print results
     eval_input_fn = tf.estimator.inputs.numpy_input_fn(
@@ -222,15 +205,7 @@ def main(unused_argv):
         shuffle=False)
     eval_results = classifier.evaluate(input_fn=eval_input_fn)
     print(eval_results)
-
-    # # Evaluate the model and print results
-    # eval_input_fn = tf.estimator.inputs.numpy_input_fn(
-    #     x={"x": eval_data},
-    #     y=eval_labels,
-    #     num_epochs=1,
-    #     shuffle=False)
-    # eval_results = mnist_classifier.evaluate(input_fn=eval_input_fn)
-    # print(eval_results)
+    exit(0)
 
 if __name__ == "__main__":
   tf.app.run()

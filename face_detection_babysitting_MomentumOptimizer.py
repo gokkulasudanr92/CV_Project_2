@@ -93,7 +93,7 @@ def cnn_model_fn(features, labels, mode):
 
     # Configure the Training Op (for TRAIN mode)
     if mode == tf.estimator.ModeKeys.TRAIN:
-        optimizer = tf.train.AdadeltaOptimizer(learning_rate=0.001)
+        optimizer = tf.train.MomentumOptimizer(learning_rate=0.001, momentum=0.8)
         train_op = optimizer.minimize(
             loss=loss,
             global_step=tf.train.get_global_step())
@@ -193,7 +193,7 @@ def main(unused_argv):
     # print (eval_labels)
 
     # Create CNN Estimator
-    classifier = tf.estimator.Estimator(model_fn=cnn_model_fn, model_dir="./tmp/classifier_cnn_model_AdadeltaOptimizer_batch1000_epoch20_steps80000")
+    classifier = tf.estimator.Estimator(model_fn=cnn_model_fn, model_dir="./tmp/classifier_cnn_model_MomentumOptimizer_batch1000_epoch20_steps20000")
 
     # Set up logging for predictions
     # Log the values in the "Softmax" tensor with label "probabilities"
@@ -211,7 +211,7 @@ def main(unused_argv):
         shuffle=True)
     classifier.train(
         input_fn=train_input_fn,
-        steps=80000,
+        steps=20000,
         hooks=None) 
 
     # Evaluate the model and print results

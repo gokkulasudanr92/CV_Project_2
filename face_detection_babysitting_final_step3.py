@@ -4,6 +4,7 @@ import numpy as np
 import tensorflow as tf
 import cv2
 import os
+import random
 
 tf.logging.set_verbosity(tf.logging.INFO)
 FACES_TRAINING_SRC_LOCATION = "G:/Project/training/faces/"
@@ -11,7 +12,7 @@ FACES_TEST_SRC_LOCATION = "G:/Project/test/faces/"
 NON_FACES_TRAINING_SRC_LOCATION = "G:/Project/training/non_faces/"
 NON_FACES_TEST_SRC_LOCATION = "G:/Project/test/non_faces/"
 
-def cnn_model_fn(features, labels, mode):
+def cnn_model_fn(features, labels, mode, params):
     """Model function for CNN."""
     # Input Layer
     # Reshape X to 4-D tensor: [batch_size, width, height, channels]
@@ -65,14 +66,17 @@ def cnn_model_fn(features, labels, mode):
     # Output Tensor Shape: [batch_size, 1024]
     dense = tf.layers.dense(inputs=pool2_flat, units=1024, activation=tf.nn.relu)
 
+    ## One step is to run without regularization
     # Add dropout operation; 0.6 probability that element will be kept
+    reg = params["reg"]
     dropout = tf.layers.dropout(
-        inputs=dense, rate=0.4, training=mode == tf.estimator.ModeKeys.TRAIN)
+        inputs=dense, rate=reg, training=mode == tf.estimator.ModeKeys.TRAIN)
 
     # Logits layer
     # Input Tensor Shape: [batch_size, 1024]
     # Output Tensor Shape: [batch_size, 2]
-    logits = tf.layers.dense(inputs=dropout, units=2)
+    # logits = tf.layers.dense(inputs=dropout, units=2)
+    logits = tf.layers.dense(inputs=dense, units=2)
 
     predictions = {
         # Generate predictions (for PREDICT and EVAL mode)
@@ -93,7 +97,8 @@ def cnn_model_fn(features, labels, mode):
 
     # Configure the Training Op (for TRAIN mode)
     if mode == tf.estimator.ModeKeys.TRAIN:
-        optimizer = tf.train.AdadeltaOptimizer(learning_rate=0.001)
+        learning_rate = params["learning_rate"]
+        optimizer = tf.train.GradientDescentOptimizer(learning_rate=learning_rate)
         train_op = optimizer.minimize(
             loss=loss,
             global_step=tf.train.get_global_step())
@@ -160,68 +165,74 @@ def extract_data_images_from_folder(faces_folder_location, non_faces_folder_loca
 
 def normalize_data_to_negative_one_to_positive_one(data_matrix):
     """ The input argument is a data matrix of np array """
-    min_val = np.amin(data_matrix)
-    max_val = np.amax(data_matrix)
-
-    normalized_data_matrix = data_matrix * 2
-    normalized_data_matrix = normalized_data_matrix - min_val
-    normalized_data_matrix = normalized_data_matrix / (max_val - min_val)
-    normalized_data_matrix = normalized_data_matrix - 1
-
+    normalized_data_matrix = data_matrix
+    mean_value = np.mean(normalized_data_matrix, axis=0)
+    normalized_data_matrix -= mean_value
+    normalized_data_matrix /= np.std(normalized_data_matrix, axis=0)
     return normalized_data_matrix
 
 def main(unused_argv):
     # Load training and test data
-    # mnist = tf.contrib.learn.datasets.load_dataset("mnist")
-    # train_data = mnist.train.images  # Returns np.array
-    # train_labels = np.asarray(mnist.train.labels, dtype=np.int32)
-    # eval_data = mnist.test.images  # Returns np.array
-    # eval_labels = np.asarray(mnist.test.labels, dtype=np.int32)
-
-    train_data, train_labels = extract_data_images_from_folder(FACES_TRAINING_SRC_LOCATION, NON_FACES_TRAINING_SRC_LOCATION, 0, 5000)
+    train_data, train_labels = extract_data_images_from_folder(FACES_TRAINING_SRC_LOCATION, NON_FACES_TRAINING_SRC_LOCATION, 0, 10000)
     normalized_train_data = normalize_data_to_negative_one_to_positive_one(train_data)
     # print (normalized_train_data.shape)
     # print (normalized_train_data)
     # print (train_labels.shape)
     # print (train_labels)
+    # exit(0)
 
-    eval_data, eval_labels = extract_data_images_from_folder(FACES_TRAINING_SRC_LOCATION, NON_FACES_TRAINING_SRC_LOCATION, 7000, 500)
+    eval_data, eval_labels = extract_data_images_from_folder(FACES_TRAINING_SRC_LOCATION, NON_FACES_TRAINING_SRC_LOCATION, 0, 1000)
     normalize_eval_data = normalize_data_to_negative_one_to_positive_one(eval_data)
     # print (normalize_eval_data.shape)
     # print (normalize_eval_data)
     # print (eval_labels.shape)
     # print (eval_labels)
+    # exit(0)
 
-    # Create CNN Estimator
-    classifier = tf.estimator.Estimator(model_fn=cnn_model_fn, model_dir="./tmp/classifier_cnn_model_AdadeltaOptimizer_batch1000_epoch20_steps80000")
+    max_count = 100
+    for i in range(max_count):
+        ## Because dropout reg should have values in between (-5, 0)
+        reg = 10**random.uniform(-15, -11)
+        learning_rate = 10 ** random.uniform(-6, -5)
 
-    # Set up logging for predictions
-    # Log the values in the "Softmax" tensor with label "probabilities"
-    # tensors_to_log = {"accuracy": "Accuracy"}
-    # _TENSORS_TO_LOG = dict((x, x) for x in ['accuracy',
-    #                                     'loss'])
-    # logging_hook = tf.train.LoggingTensorHook(tensors=_TENSORS_TO_LOG, every_n_iter=100)
+        # Create CNN Estimator
+        result_txt = "learning rate: " + str(learning_rate) + ", reg: " + str(reg) + " ---- "
+        model_dir_f = "./temp/final/classifier_cnn_model_SGD_3_final_" + str(learning_rate) + "_" + str(reg)
+        classifier = tf.estimator.Estimator(model_fn=cnn_model_fn, params={"learning_rate": learning_rate, "reg": reg}, model_dir=model_dir_f)
 
-    # Train the model with babysitting
-    train_input_fn = tf.estimator.inputs.numpy_input_fn(
-        x={"x": normalized_train_data},
-        y=train_labels,
-        batch_size=1000,
-        num_epochs=20,
-        shuffle=True)
-    classifier.train(
-        input_fn=train_input_fn,
-        steps=80000,
-        hooks=None) 
+        # Set up logging for predictions
+        # Log the values in the "Softmax" tensor with label "probabilities"
+        # tensors_to_log = {"accuracy": "Accuracy"}
+        # _TENSORS_TO_LOG = dict((x, x) for x in ['accuracy',
+        #                                     'loss'])
+        # logging_hook = tf.train.LoggingTensorHook(tensors=_TENSORS_TO_LOG, every_n_iter=100)
 
-    # Evaluate the model and print results
-    eval_input_fn = tf.estimator.inputs.numpy_input_fn(
-        x={"x": normalize_eval_data},
-        y=eval_labels,
-        num_epochs=1,
-        shuffle=False)
-    eval_results = classifier.evaluate(input_fn=eval_input_fn)
-    print(eval_results)
+        # Train the model with babysitting
+        train_input_fn = tf.estimator.inputs.numpy_input_fn(
+            x={"x": normalized_train_data},
+            y=train_labels,
+            batch_size=24,
+            num_epochs=100,
+            shuffle=True)
+        classifier.train(
+            input_fn=train_input_fn,
+            steps=200000,
+            hooks=None) 
+
+        # Evaluate the model and print results
+        eval_input_fn = tf.estimator.inputs.numpy_input_fn(
+            x={"x": normalize_eval_data},
+            y=eval_labels,
+            num_epochs=1,
+            shuffle=False)
+        eval_results = classifier.evaluate(input_fn=eval_input_fn)
+        result_txt += "val_acc: " + str(eval_results['accuracy']) + ", val_loss: " + str(eval_results['loss'])
+        # f.write(result_txt)
+        with open("fine-tuning_final.txt", "a+") as text_file:
+            text_file.write(result_txt)
+            text_file.write("\n")
+    
+    exit(0)
 
     # # Evaluate the model and print results
     # eval_input_fn = tf.estimator.inputs.numpy_input_fn(

@@ -1,0 +1,100 @@
+learning rate: 1.8312927564495046e-07, reg: 6.989598803583447e-10 ---- val_acc: 0.4875, val_loss: 0.68965
+learning rate: 8.871868570750397e-07, reg: 4.991904385055993e-08 ---- val_acc: 0.5245, val_loss: 0.679184
+learning rate: 2.6582536430922323e-06, reg: 0.20271123295453125 ---- val_acc: 0.7465, val_loss: 0.625773
+learning rate: 5.740923437585578e-06, reg: 1.6163711693631085e-10 ---- val_acc: 0.8445, val_loss: 0.573511	---------> significant point
+learning rate: 6.33116580840288e-06, reg: 4.084461482139302e-11 ---- val_acc: 0.7165, val_loss: 0.579416
+learning rate: 5.52126757184216e-06, reg: 2.8590029909897286e-13 ---- val_acc: 0.799, val_loss: 0.581665
+learning rate: 1.5871970304264547e-06, reg: 1.616189118677765e-13 ---- val_acc: 0.6905, val_loss: 0.648188
+learning rate: 7.947632254766609e-07, reg: 0.0009325704411526588 ---- val_acc: 0.512, val_loss: 0.684832
+learning rate: 3.332153289582371e-07, reg: 4.800050505301004e-10 ---- val_acc: 0.499, val_loss: 0.684305
+learning rate: 5.257906364905357e-06, reg: 3.312183686548585e-13 ---- val_acc: 0.8495, val_loss: 0.57817	---------> significant point
+learning rate: 4.969657532800973e-07, reg: 0.00010254857238082123 ---- val_acc: 0.5035, val_loss: 0.700795
+learning rate: 3.2351392688946763e-06, reg: 2.281515096812233e-14 ---- val_acc: 0.78, val_loss: 0.614656
+learning rate: 1.1926547862552844e-06, reg: 8.37173827244592e-06 ---- val_acc: 0.5525, val_loss: 0.67003
+learning rate: 1.1465460560328447e-07, reg: 2.285816996084693e-14 ---- val_acc: 0.482, val_loss: 0.692683
+learning rate: 4.220252111205163e-07, reg: 0.0011309536386247643 ---- val_acc: 0.4995, val_loss: 0.708611
+learning rate: 3.90270089934534e-06, reg: 1.3250219783857137e-14 ---- val_acc: 0.662, val_loss: 0.615993
+learning rate: 9.85662091792941e-07, reg: 2.3529668066346323e-13 ---- val_acc: 0.635, val_loss: 0.663848
+learning rate: 3.350786721350308e-06, reg: 8.291909859652245e-10 ---- val_acc: 0.801, val_loss: 0.612012	---------> significant point
+learning rate: 3.1567610948133076e-06, reg: 2.2963323090435122e-12 ---- val_acc: 0.769, val_loss: 0.616511
+learning rate: 1.7626994743574302e-06, reg: 9.702771107678859e-11 ---- val_acc: 0.678, val_loss: 0.647844
+learning rate: 4.5481271929049826e-07, reg: 8.27000245995664e-13 ---- val_acc: 0.52, val_loss: 0.680306
+learning rate: 4.271837167444605e-06, reg: 1.7962909363984714e-15 ---- val_acc: 0.774, val_loss: 0.600624
+learning rate: 4.1607173825491223e-07, reg: 1.0998600929198857e-10 ---- val_acc: 0.5145, val_loss: 0.681458
+learning rate: 6.383319890739416e-06, reg: 8.361150358038734e-08 ---- val_acc: 0.691, val_loss: 0.58191
+learning rate: 2.7002971418570854e-07, reg: 2.718620523937592e-15 ---- val_acc: 0.4965, val_loss: 0.686509
+learning rate: 7.932627060439629e-07, reg: 2.071907352102472e-13 ---- val_acc: 0.5915, val_loss: 0.670446
+learning rate: 6.576605031470522e-07, reg: 4.1674896026906865e-15 ---- val_acc: 0.5925, val_loss: 0.672863
+learning rate: 2.251363814218176e-06, reg: 1.1929608442439365e-10 ---- val_acc: 0.7125, val_loss: 0.635597
+learning rate: 2.0853046747412876e-06, reg: 0.29424520755964106 ---- val_acc: 0.746, val_loss: 0.640325
+learning rate: 5.868501564627745e-06, reg: 1.4696614388808801e-09 ---- val_acc: 0.844, val_loss: 0.571354	---------> significant point
+learning rate: 1.265399673400775e-07, reg: 1.146235243106268e-05 ---- val_acc: 0.5015, val_loss: 0.734583
+learning rate: 2.365130203744251e-06, reg: 0.0006987289854889765 ---- val_acc: 0.755, val_loss: 0.632185
+learning rate: 1.8968954972066806e-06, reg: 2.76128029944532e-13 ---- val_acc: 0.6925, val_loss: 0.643059
+learning rate: 3.2498919725180177e-07, reg: 2.681862120928856e-10 ---- val_acc: 0.499, val_loss: 0.684563
+learning rate: 2.7371121178282894e-07, reg: 3.739384878154469e-13 ---- val_acc: 0.497, val_loss: 0.686095
+learning rate: 6.514057212640712e-07, reg: 9.561036171343398e-07 ---- val_acc: 0.5065, val_loss: 0.690729
+learning rate: 1.7391834181987263e-07, reg: 8.293447186007281e-15 ---- val_acc: 0.4855, val_loss: 0.69025
+learning rate: 4.987454118603883e-06, reg: 1.8084584427931946e-12 ---- val_acc: 0.8425, val_loss: 0.58363	---------> significant point
+learning rate: 2.751597716055523e-07, reg: 9.2340096216366e-11 ---- val_acc: 0.496, val_loss: 0.686024
+learning rate: 5.917500353483967e-06, reg: 1.3003908489839463e-14 ---- val_acc: 0.623, val_loss: 0.593194
+learning rate: 3.7978161331621787e-06, reg: 4.598325008465397e-05 ---- val_acc: 0.8135, val_loss: 0.601956	---------> significant point
+learning rate: 1.0954175905324157e-06, reg: 3.0016645623688807e-12 ---- val_acc: 0.637, val_loss: 0.662041
+learning rate: 5.929378175956604e-07, reg: 0.0002465528622736968 ---- val_acc: 0.506, val_loss: 0.694536
+learning rate: 2.035302455617199e-06, reg: 8.607973358863208e-15 ---- val_acc: 0.7145, val_loss: 0.639388
+learning rate: 1.2743782335529212e-07, reg: 1.611100931549644e-08 ---- val_acc: 0.4825, val_loss: 0.692113
+learning rate: 4.120993517113326e-06, reg: 4.1886647849213376e-15 ---- val_acc: 0.8245, val_loss: 0.597629	---------> significant point
+learning rate: 1.321885919526724e-07, reg: 1.4871622862320915e-13 ---- val_acc: 0.484, val_loss: 0.691878
+learning rate: 2.492247053880246e-06, reg: 1.5412197919336265e-11 ---- val_acc: 0.7215, val_loss: 0.631442
+learning rate: 2.624796312888173e-06, reg: 0.002097013195990967 ---- val_acc: 0.769, val_loss: 0.626542
+learning rate: 8.48086803045913e-06, reg: 0.01652938201786294 ---- val_acc: 0.826, val_loss: 0.534564	---------> significant point
+learning rate: 1.2346894279611208e-06, reg: 1.2819788405120574e-09 ---- val_acc: 0.6555, val_loss: 0.656179
+learning rate: 1.4831110971570926e-07, reg: 4.130094549083131e-11 ---- val_acc: 0.4845, val_loss: 0.691134
+learning rate: 1.4344907454748896e-07, reg: 6.364435704338342e-13 ---- val_acc: 0.4845, val_loss: 0.691437
+learning rate: 3.423297047610934e-06, reg: 7.230046776881503e-06 ---- val_acc: 0.7615, val_loss: 0.6106
+learning rate: 4.7795295601271255e-06, reg: 1.0087309281491424e-15 ---- val_acc: 0.8195, val_loss: 0.589733	---------> significant point
+learning rate: 1.4192235836706154e-07, reg: 0.14999322051563788 ---- val_acc: 0.502, val_loss: 0.732857
+learning rate: 7.223443561610243e-06, reg: 8.64706494805239e-05 ---- val_acc: 0.8375, val_loss: 0.550875	---------> significant point
+learning rate: 3.1324532459542235e-07, reg: 3.389651197852934e-14 ---- val_acc: 0.5, val_loss: 0.684539
+learning rate: 5.389322087026452e-06, reg: 1.0719938779567492e-11 ---- val_acc: 0.7405, val_loss: 0.586999
+learning rate: 4.526193188282926e-06, reg: 3.22663750730926e-15 ---- val_acc: 0.7675, val_loss: 0.595981
+learning rate: 1.227301244437578e-06, reg: 6.129873940592407e-06 ---- val_acc: 0.6025, val_loss: 0.666911
+learning rate: 7.852575132340775e-06, reg: 3.302037623282273e-14 ---- val_acc: 0.885, val_loss: 0.539246	---------> significant point
+learning rate: 4.85670703744834e-06, reg: 0.023351325395093686 ---- val_acc: 0.7735, val_loss: 0.591864
+learning rate: 2.78412684983533e-07, reg: 3.879051771521086e-11 ---- val_acc: 0.498, val_loss: 0.685839
+learning rate: 9.1607523466808e-07, reg: 0.004623836802806607 ---- val_acc: 0.5585, val_loss: 0.676114
+learning rate: 6.643811228424783e-06, reg: 0.02379748051946951 ---- val_acc: 0.7265, val_loss: 0.569816
+learning rate: 1.9786658844614616e-06, reg: 0.009693021876916789 ---- val_acc: 0.741, val_loss: 0.642024
+learning rate: 1.6765221418549493e-07, reg: 0.04067896370842777 ---- val_acc: 0.502, val_loss: 0.730334
+learning rate: 2.2526852023598445e-07, reg: 1.5172699093401517e-11 ---- val_acc: 0.4875, val_loss: 0.688248
+learning rate: 8.682210478691173e-07, reg: 0.010872721796336256 ---- val_acc: 0.516, val_loss: 0.682835
+learning rate: 1.1964380314504632e-06, reg: 3.8925903273781e-09 ---- val_acc: 0.6485, val_loss: 0.658643
+learning rate: 1.1428120488352261e-06, reg: 3.0726455278459324e-11 ---- val_acc: 0.648, val_loss: 0.65892
+learning rate: 5.986095497238651e-07, reg: 0.012671421624904733 ---- val_acc: 0.506, val_loss: 0.694104
+learning rate: 1.2821534642563784e-06, reg: 1.0688740772186293e-06 ---- val_acc: 0.665, val_loss: 0.66256
+learning rate: 7.22699447448675e-07, reg: 2.6630118981450086e-06 ---- val_acc: 0.5075, val_loss: 0.686098
+learning rate: 1.0819284475358762e-06, reg: 1.5721537667581008e-05 ---- val_acc: 0.6105, val_loss: 0.669595
+learning rate: 1.3679210936356626e-07, reg: 9.00396372875842e-09 ---- val_acc: 0.4845, val_loss: 0.691745
+learning rate: 1.8175126975861332e-07, reg: 2.929589517217815e-14 ---- val_acc: 0.4865, val_loss: 0.689755
+learning rate: 5.185677637528699e-07, reg: 0.08861677713744934 ---- val_acc: 0.506, val_loss: 0.70094
+learning rate: 2.335423211923891e-06, reg: 1.6025595221381253e-15 ---- val_acc: 0.747, val_loss: 0.631987
+learning rate: 5.32790278941586e-07, reg: 2.0952009609161372e-13 ---- val_acc: 0.5495, val_loss: 0.676744
+learning rate: 5.677790950474032e-07, reg: 0.8993998855080532 ---- val_acc: 0.5065, val_loss: 0.699186
+learning rate: 2.3503818433635684e-06, reg: 5.153454511076268e-07 ---- val_acc: 0.7595, val_loss: 0.633022
+learning rate: 2.1545824873659087e-06, reg: 2.6871961476186303e-14 ---- val_acc: 0.7175, val_loss: 0.637154
+learning rate: 1.6517452722674095e-06, reg: 2.788983297953595e-09 ---- val_acc: 0.678, val_loss: 0.649687
+learning rate: 4.839248675931199e-07, reg: 9.177854405086922e-13 ---- val_acc: 0.5325, val_loss: 0.678644
+learning rate: 1.2993242873025942e-07, reg: 6.425490662530056e-10 ---- val_acc: 0.4825, val_loss: 0.692033
+learning rate: 5.620154903571917e-06, reg: 0.2763022730454796 ---- val_acc: 0.855, val_loss: 0.569139	---------> significant point
+learning rate: 2.431507571302591e-07, reg: 2.3540107320535676e-08 ---- val_acc: 0.491, val_loss: 0.687616
+learning rate: 1.6307813602967865e-07, reg: 4.5516607236376233e-07 ---- val_acc: 0.502, val_loss: 0.730679
+learning rate: 7.224397273979471e-07, reg: 4.1319881096752697e-13 ---- val_acc: 0.5975, val_loss: 0.671351
+learning rate: 3.1591584303948905e-06, reg: 4.4361299936209936e-14 ---- val_acc: 0.795, val_loss: 0.616111
+learning rate: 8.194286066668624e-06, reg: 1.656935540816878e-05 ---- val_acc: 0.823, val_loss: 0.540012	---------> significant point
+learning rate: 9.768178211453636e-07, reg: 4.249015520437701e-12 ---- val_acc: 0.629, val_loss: 0.664274
+learning rate: 1.4576247163617291e-06, reg: 8.802846730110483e-06 ---- val_acc: 0.695, val_loss: 0.656103
+learning rate: 1.378035559060789e-07, reg: 2.2425001874081115e-07 ---- val_acc: 0.502, val_loss: 0.733369
+learning rate: 2.7133190634458715e-06, reg: 0.06096018630403699 ---- val_acc: 0.761, val_loss: 0.627948
+learning rate: 2.7107340780435344e-06, reg: 0.00020382679079053423 ---- val_acc: 0.741, val_loss: 0.624728
+learning rate: 2.31028990944802e-06, reg: 1.8725030698621767e-08 ---- val_acc: 0.756, val_loss: 0.632371
+learning rate: 6.562549276377808e-06, reg: 1.1096004155506863e-09 ---- val_acc: 0.851, val_loss: 0.560654	---------> significant point
