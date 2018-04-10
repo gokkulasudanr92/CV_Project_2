@@ -174,7 +174,7 @@ def main(unused_argv):
     normalize_eval_data = normalize_data_to_negative_one_to_positive_one(eval_data)
 
     # Create CNN Estimator
-    classifier = tf.estimator.Estimator(model_fn=cnn_model_fn, model_dir="./temp/final/classifier_cnn_model_SGD_final_model")
+    classifier = tf.estimator.Estimator(model_fn=cnn_model_fn, model_dir="../temp/final/classifier_cnn_model_SGD_final_model_not_normalized")
 
     # Set up logging for predictions
     # Log the values in the "Softmax" tensor with label "probabilities"
@@ -185,10 +185,10 @@ def main(unused_argv):
 
     # Train the model with babysitting
     train_input_fn = tf.estimator.inputs.numpy_input_fn(
-        x={"x": normalized_train_data},
+        x={"x": train_data},
         y=train_labels,
         batch_size=24,
-        num_epochs=20,
+        num_epochs=10,
         shuffle=True)
     classifier.train(
         input_fn=train_input_fn,
@@ -197,7 +197,7 @@ def main(unused_argv):
 
     # Evaluate the model and print results
     eval_input_fn = tf.estimator.inputs.numpy_input_fn(
-        x={"x": normalize_eval_data},
+        x={"x": eval_data},
         y=eval_labels,
         num_epochs=1,
         shuffle=False)
