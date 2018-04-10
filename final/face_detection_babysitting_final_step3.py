@@ -128,8 +128,6 @@ def extract_data_images_from_folder(faces_folder_location, non_faces_folder_loca
             count += 1
             break
         img = cv2.imread(os.path.join(faces_folder_location, filename), flags = cv2.IMREAD_COLOR)
-        # cv2.imshow("IMAGE", img)
-        # cv2.waitKey(0)
         if img is not None:
             img_reshaped = img.reshape((1, 10800))
             images_list.append(img_reshaped)
@@ -145,8 +143,6 @@ def extract_data_images_from_folder(faces_folder_location, non_faces_folder_loca
         if count >= number_of_data_points:
             break
         img = cv2.imread(os.path.join(non_faces_folder_location, filename), flags = cv2.IMREAD_COLOR)
-        # cv2.imshow("IMAGE", img)
-        # cv2.waitKey(0)
         if img is not None:
             img_reshaped = img.reshape((1, 10800))
             images_list.append(img_reshaped)
@@ -175,19 +171,9 @@ def main(unused_argv):
     # Load training and test data
     train_data, train_labels = extract_data_images_from_folder(FACES_TRAINING_SRC_LOCATION, NON_FACES_TRAINING_SRC_LOCATION, 0, 10000)
     normalized_train_data = normalize_data_to_negative_one_to_positive_one(train_data)
-    # print (normalized_train_data.shape)
-    # print (normalized_train_data)
-    # print (train_labels.shape)
-    # print (train_labels)
-    # exit(0)
 
     eval_data, eval_labels = extract_data_images_from_folder(FACES_TRAINING_SRC_LOCATION, NON_FACES_TRAINING_SRC_LOCATION, 0, 1000)
     normalize_eval_data = normalize_data_to_negative_one_to_positive_one(eval_data)
-    # print (normalize_eval_data.shape)
-    # print (normalize_eval_data)
-    # print (eval_labels.shape)
-    # print (eval_labels)
-    # exit(0)
 
     max_count = 100
     for i in range(max_count):
@@ -197,7 +183,7 @@ def main(unused_argv):
 
         # Create CNN Estimator
         result_txt = "learning rate: " + str(learning_rate) + ", reg: " + str(reg) + " ---- "
-        model_dir_f = "./temp/final/classifier_cnn_model_SGD_3_final_" + str(learning_rate) + "_" + str(reg)
+        model_dir_f = "../temp/final/classifier_cnn_model_SGD_3_final_" + str(learning_rate) + "_" + str(reg)
         classifier = tf.estimator.Estimator(model_fn=cnn_model_fn, params={"learning_rate": learning_rate, "reg": reg}, model_dir=model_dir_f)
 
         # Set up logging for predictions
@@ -233,15 +219,6 @@ def main(unused_argv):
             text_file.write("\n")
     
     exit(0)
-
-    # # Evaluate the model and print results
-    # eval_input_fn = tf.estimator.inputs.numpy_input_fn(
-    #     x={"x": eval_data},
-    #     y=eval_labels,
-    #     num_epochs=1,
-    #     shuffle=False)
-    # eval_results = mnist_classifier.evaluate(input_fn=eval_input_fn)
-    # print(eval_results)
 
 if __name__ == "__main__":
   tf.app.run()
